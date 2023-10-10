@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Page</title>
+</head>
+
+<style>
+    body{
+        background-image: url("{% static 'DiabetesPrediction/images/diabetes1.jpeg' %}");
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .main{
+        position: fixed;
+        top: 50px;
+        left: 210px;
+        width: 550px;
+        border-radius: 10px;
+        align-items: center;
+        padding: 5%;
+    }
+    h1{
+        color: #0086b3;
+        font-size: 30px;
+        font-weight: bold;
+    }
+    input[type=submit]{
+        background-color: #4dc3ff;
+        border: 2px;
+        color: white;
+        padding: 8px 16px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+    .result-positive {
+        color: crimson;
+        font-size: 24px;
+        background-color: white;
+    }
+    .result-negative {
+        color: green;
+        font-size: 24px;
+        background-color: white;
+    }
+</style>
+<body>
+ <div align="center" class="main">
+     <h1>
+         Please enter the following information:
+     </h1>
+     <form action="result" method="get" onsubmit="return validateForm();" id="prediction-form"> <!-- Specify method as "get" -->
+         <table>
+             <tr>
+                 <td align="right">Pregnancies:</td>
+                 <td align="left"><input type="text" name="n1" value="{{ request.GET.n1 }}"></td>
+             </tr>
+             <tr>
+                 <td align="right">Glucose:</td>
+                 <td align="left"><input type="text" name="n2" value="{{ request.GET.n2 }}"></td>
+             </tr>
+             <tr>
+                 <td align="right">Blood Pressure:</td>
+                 <td align="left"><input type="text" name="n3" value="{{ request.GET.n3 }}"></td>
+             </tr>
+             <tr>
+                 <td align="right">Skin Thickness:</td>
+                 <td align="left"><input type="text" name="n4" value="{{ request.GET.n4 }}"></td>
+             </tr>
+             <tr>
+                 <td align="right">Insulin:</td>
+                 <td align="left"><input type="text" name="n5" value="{{ request.GET.n5 }}"></td>
+             </tr>
+             <tr>
+                 <td align="right">BMI:</td>
+                 <td align="left"><input type="text" name="n6" value="{{ request.GET.n6 }}"></td>
+             </tr>
+             <tr>
+                 <td align="right">Diabetes Pedigree function:</td>
+                 <td align="left"><input type="text" name="n7" value="{{ request.GET.n7 }}"></td>
+             </tr>
+             <tr>
+                 <td align="right">Age:</td>
+                 <td align="left"><input type="text" name="n8" value="{{ request.GET.n8 }}"></td>
+             </tr>
+         </table>
+         <input type="submit">
+         <input type="button" value="Clear All" onclick="clearForm()">
+     </form>
+     <br>
+     <div class="{% if result2 == ' Positive' %}result-positive{% else %}result-negative{% endif %}">
+         Result: {{ result2 }}
+     </div>
+ </div>
+<script>
+    function validateForm() {
+        // Get the form element by its ID
+        var form = document.getElementById("prediction-form");
+        // Get all the input elements within the form
+        var inputs = form.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type === "text" && inputs[i].value.trim() === "") {
+                alert("Please enter all required values.");
+                return false; // Prevent form submission
+            }
+        }
+        return true; // Form is valid, allow submission
+    }
+
+    function clearForm() {
+        // Get all the input elements and set their values to an empty string
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type === "text") {
+                inputs[i].value = "";
+            }
+        }
+    }
+</script>
+</body>
+</html>
